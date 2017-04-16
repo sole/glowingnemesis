@@ -12,6 +12,7 @@ window.onload = function() {
 	
 		let finalPaths = [];
 		files.forEach((f) => {
+			// TODO: this should probably happen on the main process 8-)
 			let partial = scanAndFilter(f.path);
 			finalPaths = finalPaths.concat(partial);
 		});
