@@ -1,14 +1,24 @@
 let scanAndFilter = require('./scanAndFilter.js');
+let Playlist = require('./Playlist.js');
 
-var out, playlist, player;
+var out;
+var playlistContainer;
+var playlist;
+var player;
 
 window.onload = function() {
 	
 	out = document.getElementById('out');
-	playlist = document.getElementById('playlist');
+	playlistContainer = document.getElementById('playlist');
 	player = document.getElementById('player');
+
+	playlist = new Playlist();
+	playlist.attachToHTMLNode(playlistContainer);
+	playlist.onTrackPlay = (trackPath) => {
+		playSong(trackPath);
+	};
 	
-	// make window a drag target area
+	// Make window a drag target area
 	dragAndDropify(window, (files) => {
 		let filePaths = files.map((f) => {
 			return f.path;
@@ -21,25 +31,13 @@ window.onload = function() {
 			let partial = scanAndFilter(f.path);
 			finalPaths = finalPaths.concat(partial);
 		});
-		// TODO replace this with a better 'playlist' component or something
 		// TODO use ID3 to show song title?
-		let items = finalPaths.map((f) => {
-			return `<div data-src="${ f }">${ f }</div>`;
-		}).join('');
-		playlist.innerHTML = '';
-		playlist.innerHTML = items;
+		playlist.setItems(finalPaths);
 	});
 
 	// Set up player (i.e. the <audio> element) events
 	player.addEventListener('ended', playNextSong);
 
-	playlist.addEventListener('dblclick', (e) => {
-		e.preventDefault();
-		let target = e.target;
-		if(target.dataset.src) {
-			playSongAtNode(target);
-		}
-	});
 };
 
 function dragAndDropify(target, onFiles) {
@@ -63,41 +61,12 @@ function dragAndDropify(target, onFiles) {
 	};
 }
 
-function playerHighlightRow(songNode) {
-	// TODO temporary, should go away once I have a proper playlist object
-	let playlistContainer = songNode.parentNode;
-	let items = Array.from(playlistContainer.childNodes);
-	items.forEach((item) => {
-		item.classList.remove('highlight');
-	});
-	songNode.classList.add('highlight');
-}
-
-function playSongAtNode(node) {
-	playSong(node.dataset.src);
-	playerHighlightRow(node);
-}
-
 function playSong(path) {
 	player.src = path;
 	player.play();
 }
 
 function playNextSong() {
-	// TODO this is very clumsy and temporary
-	let currentRow = document.querySelector('#playlist div.highlight');
-	let allRows = Array.from(playlist.querySelectorAll('div'));
-	let position = 0;
-	for(let i = 0; i < allRows.length; i++) {
-		let r = allRows[i];
-		if(r === currentRow) {
-			position = i;
-			break;
-		}
-	}
-
-	position = (position + 1) % allRows.length;
-	let nextRow = allRows[position];
-	playSongAtNode(nextRow);
+	playlist.playNextTrack();
 }
 
