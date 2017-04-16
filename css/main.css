@@ -39,7 +39,7 @@ header {
 }
 
 #playlist > div {
-	transition: 1s fade-in background;
+	transition: background 0.3s ease-in-out;
 }
 
 .highlight {
