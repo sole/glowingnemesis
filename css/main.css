@@ -1,0 +1,43 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+window, document {
+	height: 100%;
+}
+
+body {
+	height: 100%;
+	background: yellow;
+	display: block;
+}
+
+main {
+	display: flex;
+	height: 100vh;
+	background: blue;
+	flex-direction: column;
+}
+
+h1 { background: #fdd; }
+#playlist { background: #dfd; }
+#out { background: #ddf; }
+
+h1, #playlist, #out {
+	flex: 1 100%;
+}
+
+h1 {
+	flex: 0;
+}
+
+#playlist {
+	flex: 2;
+	display: block;
+}
+
+#out {
+	flex: 2;
+	display: block;
+}

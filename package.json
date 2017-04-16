@@ -1,0 +1,15 @@
+{
+  "name": "glowingnemesis",
+  "version": "1.0.0",
+  "description": "a jukebox",
+  "main": "index.js",
+  "scripts": {
+	  "start": "electron main.js",
+	  "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "sole",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "electron": "^1.6.2"
+  }
+}
