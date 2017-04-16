@@ -26,6 +26,7 @@ window.onload = function() {
 		let items = finalPaths.map((f) => {
 			return `<div data-src="${ f }">${ f }</div>`;
 		}).join('');
+		playlist.innerHTML = '';
 		playlist.innerHTML = items;
 	});
 

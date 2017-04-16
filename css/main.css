@@ -24,17 +24,18 @@ h1 { background: #fdd; }
 #playlist { background: #dfd; }
 #out { background: #ddf; }
 
-h1, #playlist, #out {
+header, #playlist, #out {
 	flex: 1 100%;
 }
 
-h1 {
+header {
 	flex: 0;
 }
 
 #playlist {
-	flex: 2;
+	flex: 10;
 	display: block;
+	overflow-y: auto;
 }
 
 #playlist > div {
@@ -46,6 +47,6 @@ h1 {
 }
 
 #out {
-	flex: 2;
+	flex: 0;
 	display: block;
 }
