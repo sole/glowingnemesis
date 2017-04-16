@@ -37,6 +37,14 @@ h1 {
 	display: block;
 }
 
+#playlist > div {
+	transition: 1s fade-in background;
+}
+
+.highlight {
+	background: yellow;
+}
+
 #out {
 	flex: 2;
 	display: block;
