@@ -1,3 +1,4 @@
+let scanAndFilter = require('./scanAndFilter.js');
 
 window.onload = function() {
 	
@@ -5,10 +6,16 @@ window.onload = function() {
 	
 	// make window a drag target area
 	dragAndDropify(window, (files) => {
-		var lines = files.map((f) => {
+		var filePaths = files.map((f) => {
 			return f.path;
 		});
-		var txt = lines.join('<br />');
+	
+		let finalPaths = [];
+		files.forEach((f) => {
+			let partial = scanAndFilter(f.path);
+			finalPaths = finalPaths.concat(partial);
+		});
+		let txt = finalPaths.join('<br />');
 		out.innerHTML = txt;
 	});
 };
@@ -31,5 +38,8 @@ function dragAndDropify(target, onFiles) {
 		}
 		onFiles(files);
 		return false;
-	}
+	};
 }
+
+
+
