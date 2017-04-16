@@ -3,12 +3,15 @@ let scanAndFilter = require('./scanAndFilter.js');
 window.onload = function() {
 	
 	var out = document.getElementById('out');
+	var playlist = document.getElementById('playlist');
+	var player = document.getElementById('player');
 	
 	// make window a drag target area
 	dragAndDropify(window, (files) => {
-		var filePaths = files.map((f) => {
+		let filePaths = files.map((f) => {
 			return f.path;
 		});
+		out.innerHTML = filePaths.join('<br />');
 	
 		let finalPaths = [];
 		files.forEach((f) => {
@@ -16,8 +19,21 @@ window.onload = function() {
 			let partial = scanAndFilter(f.path);
 			finalPaths = finalPaths.concat(partial);
 		});
-		let txt = finalPaths.join('<br />');
-		out.innerHTML = txt;
+		// TODO replace this with a better 'playlist' component or something
+		// TODO use ID3 to show song title?
+		let items = finalPaths.map((f) => {
+			return `<div data-src="${ f }">${ f }</div>`;
+		}).join('');
+		playlist.innerHTML = items;
+	});
+
+	playlist.addEventListener('dblclick', (e) => {
+		console.log(e);
+		e.preventDefault();
+		let target = e.target;
+		if(target.dataset.src) {
+			playSong(target.dataset.src);
+		}
 	});
 };
 
@@ -42,5 +58,8 @@ function dragAndDropify(target, onFiles) {
 	};
 }
 
-
+function playSong(path) {
+	player.src = path;
+	player.play();
+}
 

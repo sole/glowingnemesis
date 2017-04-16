@@ -6,7 +6,6 @@ function scanAndFilter(filePath) {
 
 	// recurse if directory
 	if(isDirectory(filePath)) {
-		console.log('recursing into', filePath);
 		let dirEntries = listDir(filePath);
 		dirEntries.forEach((entry) => {
 			let fullEntryPath = path.join(filePath, entry);
@@ -26,7 +25,6 @@ function scanAndFilter(filePath) {
 
 function isDirectory(filePath) {
 	let s = fs.statSync(filePath);
-	console.log('is directory?', filePath, s.isDirectory());
 	return s.isDirectory();
 }
 
