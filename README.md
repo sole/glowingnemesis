@@ -1,9 +1,14 @@
-# glowingnemesis
+# glowing nemesis
 
-A jukebox
+> a mini music player
 
-- ID3 tags?
-- folder based
-- refresh periodically / forced refresh?
+## TODO
+
+- remember last tracks on reopening
+- automatically skip to next track if failure
+- read ID3 tags
+- keyboard support (space to pause / play... multimedia keys?)
+- vumeter / some sort of vis
+- repeat settings: all songs, 1, none
+- can other non-browser formats be played? via custom decoders?
 - clever playlists
-- local cache?

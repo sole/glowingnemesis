@@ -13,11 +13,18 @@ module.exports = function Playlist() {
 
 	this.setItems = function(list) {
 		items = list;
+		rootNode.innerHTML = '';
 
-		rootNode.innerHTML = 
-			list.map((item) => {
-				return `<div data-src="${ item }">${ item }</div>`;
-			}).join('\n');
+		list.map((item) => {
+			that.addItem(item);
+		});
+	};
+
+	this.addItem = function(item) {
+		items.push(item);
+		
+		let html = `<div data-src="${ item }">${ item }</div>`;
+		rootNode.innerHTML += html;
 	};
 
 	this.playNextTrack = function() {
@@ -42,14 +49,12 @@ module.exports = function Playlist() {
 
 	function playSongAtPosition(pos) {
 		// TODO: check we're not going out of bounds
-		
 		var songPath = items[pos];
 		that.onTrackPlay(songPath);
 
 		currentItem = pos;
 
-		let rows = Array.from(rootNode.querySelectorAll('div'));
-		console.log(rows);
+		let rows = Array.from(rootNode.childNodes);
 		rows.forEach((row) => {
 			row.classList.remove('highlight');
 		});

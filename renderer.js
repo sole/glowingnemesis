@@ -1,3 +1,5 @@
+const { ipcRenderer } = require('electron');
+
 let scanAndFilter = require('./scanAndFilter.js');
 let Playlist = require('./Playlist.js');
 
@@ -20,25 +22,25 @@ window.onload = function() {
 	
 	// Make window a drag target area
 	dragAndDropify(window, (files) => {
+
 		let filePaths = files.map((f) => {
 			return f.path;
 		});
 		out.innerHTML = filePaths.join('<br />');
 	
-		let finalPaths = [];
-		files.forEach((f) => {
-			// TODO: this should probably happen on the main process 8-)
-			let partial = scanAndFilter(f.path);
-			finalPaths = finalPaths.concat(partial);
-		});
-		// TODO use ID3 to show song title?
-		playlist.setItems(finalPaths);
+		ipcRenderer.send('scan-files', filePaths);
+		
 	});
 
 	// Set up player (i.e. the <audio> element) events
 	player.addEventListener('ended', playNextSong);
 
 };
+
+ipcRenderer.on('file-scanned', (event, arg) => {
+	out.innerHTML = 'scanned ' + JSON.stringify(arg);
+	playlist.addItem(arg);
+});
 
 function dragAndDropify(target, onFiles) {
 	target.ondragover = () => {

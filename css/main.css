@@ -9,20 +9,17 @@ window, document {
 
 body {
 	height: 100%;
-	background: yellow;
 	display: block;
+	color: #000;
+	background: #fff;
+	font-family: Helvetica, Arial, sans-serif;
 }
 
 main {
 	display: flex;
 	height: 100vh;
-	background: blue;
 	flex-direction: column;
 }
-
-h1 { background: #fdd; }
-#playlist { background: #dfd; }
-#out { background: #ddf; }
 
 header, #playlist, #out {
 	flex: 1 100%;
@@ -49,4 +46,5 @@ header {
 #out {
 	flex: 0;
 	display: block;
+	background: #ddd;
 }

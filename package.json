@@ -1,7 +1,7 @@
 {
-  "name": "glowingnemesis",
+  "name": "@sole/glowing-nemesis",
   "version": "1.0.0",
-  "description": "a jukebox",
+  "description": "a mini music player",
   "main": "index.js",
   "scripts": {
 	  "start": "electron main.js",

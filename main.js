@@ -1,11 +1,20 @@
 const electron = require('electron');
+const ipcMain = electron.ipcMain;
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 
 const path = require('path');
 const url = require('url');
 
+const scanAndFilter = require('./scanAndFilter');
+
 let mainWindow;
+
+app.on('ready', createWindow);
+
+app.on('window-all-closed', function () {
+    app.quit();
+});
 
 function createWindow () {
   mainWindow = new BrowserWindow({width: 800, height: 600});
@@ -16,29 +25,21 @@ function createWindow () {
     slashes: true
   }));
 
-  // Open the DevTools.
-  //mainWindow.webContents.openDevTools()
-
   mainWindow.on('closed', function () {
     mainWindow = null;
   });
 }
 
-app.on('ready', createWindow)
+ipcMain.on('scan-files', (event, files) => {
+	let finalPaths = [];
+	files.forEach((f) => {
+		let partial = scanAndFilter(f);
+		finalPaths = finalPaths.concat(partial);
+	});
 
-app.on('window-all-closed', function () {
-  // On OS X it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
-  //if (process.platform !== 'darwin') {
-    app.quit();
-  //}
+	// TODO use ID3 to show song title?
+	finalPaths.forEach((fp) => {
+		event.sender.send('file-scanned', fp);
+	});
 });
-
-/*app.on('activate', function () {
-  // On OS X it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
-  if (mainWindow === null) {
-    createWindow()
-  }
-})*/
 
