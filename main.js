@@ -5,6 +5,8 @@ const BrowserWindow = electron.BrowserWindow;
 
 const path = require('path');
 const url = require('url');
+const fs = require('fs');
+const mm = require('musicmetadata');
 
 const scanAndFilter = require('./scanAndFilter');
 
@@ -35,6 +37,15 @@ ipcMain.on('scan-files', (event, files) => {
 	files.forEach((f) => {
 		let partial = scanAndFilter(f);
 		finalPaths = finalPaths.concat(partial);
+	});
+
+	finalPaths.forEach((fp) => {
+		var rs = fs.createReadStream(fp);
+		var parser = mm(rs, function (err, metadata) {
+		  // if (err) throw err;
+		  console.log(fp, metadata);
+		  rs.close();
+		});
 	});
 
 	// TODO use ID3 to show song title?
