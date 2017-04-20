@@ -27,7 +27,7 @@ window.onload = function() {
 			return f.path;
 		});
 		out.innerHTML = filePaths.join('<br />');
-	
+		
 		ipcRenderer.send('scan-files', filePaths);
 		
 	});
@@ -51,9 +51,8 @@ function dragAndDropify(target, onFiles) {
 		return false;
 	};
 
-	let files = [];
-
 	target.ondrop = (e) => {
+		let files = [];
 		e.preventDefault();
 		for (let f of e.dataTransfer.files) {
 			files.push(f);
